@@ -33,10 +33,10 @@ export const register = async (user: DocumentDefinition<User>): Promise<void> =>
 export const login = async (user: DocumentDefinition<User>): Promise<void> => {
   try {
     const foundUser = UserModel.findOne({ username: user.username });
-    console.log(foundUser)
     if (!foundUser) {
       throw new Error(`Not found ${user.username}`);
     }
+    
   } catch (error) {
     throw error;
   }
