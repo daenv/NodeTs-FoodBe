@@ -3,6 +3,7 @@ import { User, UserModel } from "../../models/users/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { generateTokenReponse } from "../../utils/token";
+import { sample_users } from "../../data/data";
 
 export const register = async (user: DocumentDefinition<User>): Promise<void> => {
   try {
@@ -50,6 +51,19 @@ export const login = async (user: DocumentDefinition<User>) => {
       throw new Error("Password is not correct");
     }
     return foundUser;
+  } catch (error) {
+    throw error;
+  }
+};
+export const send = async () => {
+  try {
+    const userCount = await UserModel.countDocuments();
+    if (userCount > 0) {
+      throw new Error("User already exists");
+    }
+    const sendData = await UserModel.create(sample_users);
+    console.log(sendData);
+    return sendData;
   } catch (error) {
     throw error;
   }
