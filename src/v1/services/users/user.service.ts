@@ -1,15 +1,14 @@
-import { DocumentDefinition } from 'mongoose';
-import { Request, Response } from 'express';
-import { User, UserModel } from '../../models/users/user.model';
-import { HTTP_BAD_REQUEST } from '../../constants/http_status';
-import bcrypt from 'bcrypt';
-import { generateTokenReponse } from '../../utils/token';
+import { DocumentDefinition } from "mongoose";
+import { User, UserModel } from "../../models/users/user.model";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { generateTokenReponse } from "../../utils/token";
 
 export const register = async (user: DocumentDefinition<User>): Promise<void> => {
   try {
     const userFound = await UserModel.findOne({ username: user.username });
     if (userFound) {
-      throw new Error('usename or email already exists');
+      throw new Error("usename or email already exists");
     }
     // hashing passwords
     const hashedPassword = await bcrypt.hash(user.password, 8);
@@ -30,13 +29,27 @@ export const register = async (user: DocumentDefinition<User>): Promise<void> =>
     throw error;
   }
 };
-export const login = async (user: DocumentDefinition<User>): Promise<void> => {
+export const login = async (user: DocumentDefinition<User>) => {
   try {
     const foundUser = UserModel.findOne({ username: user.username });
     if (!foundUser) {
       throw new Error(`Not found ${user.username}`);
     }
-    
+    const isMatch = await bcrypt.compare(user.password, (await foundUser).password);
+    // check isMatch
+    if (isMatch) {
+      const token = jwt.sign(
+        { _id: (await foundUser)._id?.toString(), username: (await foundUser).username },
+        process.env.ACCESS_TOKEN_PRIVATE_KEY,
+        {
+          expiresIn: "2 days",
+        }
+      );
+      console.log(token);
+    } else {
+      throw new Error("Password is not correct");
+    }
+    return foundUser;
   } catch (error) {
     throw error;
   }
