@@ -59,7 +59,7 @@ export const send = async () => {
   try {
     const userCount = await UserModel.countDocuments();
     if (userCount > 0) {
-      throw new Error("User already exists");
+      throw new Error("User alre ady exists");
     }
     const sendData = await UserModel.create(sample_users);
     console.log(sendData);
