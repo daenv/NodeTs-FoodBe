@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { HTTP_BAD_REQUEST, HTTP_SUCCESS } from '../../constants/http_status';
 import { getErrorMessage } from "../../utils/errorMessage";
-import * as productService from "../../services/foods/food.service";
+import * as productService from "../../services/products/product.service";
 
 export const getAllProducts = async (req: Request, res: Response) => {
     try {

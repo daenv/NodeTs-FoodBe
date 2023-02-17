@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as productController from "../../controllers/foods/food.controller";
+import * as productController from "../../controllers/products/product.controller";
 const router = Router();
 
 //router.post("/", authMiddleware, isAdmin, createProduct);
