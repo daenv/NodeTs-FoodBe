@@ -1,5 +1,17 @@
 import mongoose from "mongoose";
 
+export interface image {
+  url: string;
+  publicId: string;
+  width: number;
+  height: number;
+}
+export const imageSchema: mongoose.Schema<image> = new mongoose.Schema({
+  url: { type: "string", required: true },
+  publicId: { type: "string", required: true },
+  width: { type: "number", required: true },
+  height: { type: "number", required: true },
+});
 export interface Product extends mongoose.Document {
   id: string;
   title: string;
@@ -9,7 +21,7 @@ export interface Product extends mongoose.Document {
   category: string;
   brand: string;
   sold: string;
-  image: string;
+  image: image;
   ratings: number;
   totalRating: string;
 }
@@ -23,7 +35,7 @@ export const productSchema: mongoose.Schema<Product> = new mongoose.Schema(
     category: { type: "string", required: true },
     brand: { type: "string", required: true },
     sold: { type: "string", required: true },
-    image: { type: "string", required: true },
+    image: { type: imageSchema, required: true },
     ratings: { type: "number", required: true },
     totalRating: { type: "string", required: true, default: "0" },
   },

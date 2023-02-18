@@ -5,6 +5,6 @@ const productRouter = require('./products/product.router');
 const routes = Router();
 
 routes.use('/api/v1/users', userRouter);
-routes.use('/api/v1/foods', productRouter);
+routes.use('/api/v1/products', productRouter);
 routes.use('/api/v1/orders', orderRouter);
 module.exports = routes;
