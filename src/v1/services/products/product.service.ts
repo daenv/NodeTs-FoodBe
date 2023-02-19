@@ -19,9 +19,13 @@ export const createProduct = async (product: DocumentDefinition<Product>): Promi
     throw error;
   }
 };
-export const updateProduct = async (productId: DocumentDefinition<Product>, ): Promise<any> => {
+export const updateProduct = async (product: DocumentDefinition<Product> ): Promise<any> => {
+    
     try {
-      
+        const productFound = await ProductModel.findOne({ id: product.id });
+        if (!productFound) {
+            throw new Error("Product does not found");
+        }
   } catch (error) {}
 };
 

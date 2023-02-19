@@ -24,13 +24,13 @@ export const createProduct = async (req: Request, res: Response): Promise<any> =
   }
 };
 export const updateProduct = async (req: Request, res: Response): Promise<any> => {
-  const id = req.params;
-  validateMongoId(id);
+  
+  /* validateMongoId(id); */
   try {
     if (req.body.title) {
       req.body.slug = slugify(req.body.title);
     }
-    /* const updatedProduct = await productService.updateProduct(id, req.body); */
+    /* const updatedProduct = await productService.updateProduct(id); */
   } catch (error) {
     res.status(HTTP_INTERNAL_SERVER_ERROR).json({ message: getErrorMessage(error) });
   }
