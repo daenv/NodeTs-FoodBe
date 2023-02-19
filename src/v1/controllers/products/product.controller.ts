@@ -1,3 +1,4 @@
+import slugify from "slugify";
 import { Request, Response } from "express";
 import {
   HTTP_BAD_REQUEST,
@@ -7,6 +8,8 @@ import {
 import { getErrorMessage } from "../../utils/errorMessage";
 import * as productService from "../../services/products/product.service";
 import { generateTokenReponse } from "../../utils/token";
+import {validateMongoId} from '../../utils/validateMongoDbId';
+
 
 export const createProduct = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -20,6 +23,19 @@ export const createProduct = async (req: Request, res: Response): Promise<any> =
     res.status(HTTP_INTERNAL_SERVER_ERROR).json({ message: getErrorMessage(error) });
   }
 };
+export const updateProduct = async (req: Request, res: Response): Promise<any> => {
+  const id = req.params;
+  validateMongoId(id);
+  try {
+    if (req.body.title) {
+      req.body.slug = slugify(req.body.title);
+    }
+    /* const updatedProduct = await productService.updateProduct(id, req.body); */
+  } catch (error) {
+    res.status(HTTP_INTERNAL_SERVER_ERROR).json({ message: getErrorMessage(error) });
+  }
+};
+
 
 /* export const getAllProducts = async (req: Request, res: Response) => {
     try {

@@ -19,6 +19,11 @@ export const createProduct = async (product: DocumentDefinition<Product>): Promi
     throw error;
   }
 };
+export const updateProduct = async (product: DocumentDefinition<Product>): Promise<any> => {
+    try {
+      
+  } catch (error) {}
+};
 
 /* export const getAllProduct = async (product: DocumentDefinition<Product>): Promise<any> => { 
     try {
