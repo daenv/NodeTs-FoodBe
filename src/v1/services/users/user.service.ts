@@ -13,16 +13,16 @@ export const register = async (user: DocumentDefinition<User>): Promise<void> =>
     }
     // hashing passwords
     const hashedPassword = await bcrypt.hash(user.password, 8);
-    const newUser = {
+    const newUser = new UserModel( {
       id: user.id,
       username: user.username,
       email: user.email.toLowerCase(),
       password: hashedPassword,
       role: user.role,
       address: user.address,
-    };
+    });
     //create a new user object
-    const dbUser = await UserModel.create(newUser);
+    const dbUser = await newUser.save();
 
     //send token requeste
     generateTokenReponse(dbUser);

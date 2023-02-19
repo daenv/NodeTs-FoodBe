@@ -4,10 +4,17 @@ import { generateTokenReponse } from "../../utils/token";
 
 export const createProduct = async (product: DocumentDefinition<Product>): Promise<any> => {
   try {
+    //check id product
+    const productExists = await ProductModel.findOne({ slug: product?.slug });
+    if (productExists) {
+      throw new Error("Product already exists");
+    }
     // create product
-    await ProductModel.create(product);
-    //send token request
-      
+    else {
+      const newProduct = new ProductModel(product);
+      await newProduct.save();
+      return newProduct;
+    }
   } catch (error) {
     throw error;
   }

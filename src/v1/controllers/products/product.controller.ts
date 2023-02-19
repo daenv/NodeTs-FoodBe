@@ -11,7 +11,7 @@ import { generateTokenReponse } from "../../utils/token";
 export const createProduct = async (req: Request, res: Response): Promise<any> => {
   try {
     const createdProduct = await productService.createProduct(req.body);
-    if (!!createdProduct) {
+    if (!createdProduct) {
       res.status(HTTP_BAD_REQUEST).json({ message: "Product not created" });
     } else {
       res.status(HTTP_SUCCESS).json({ message: "Product created", product: createdProduct });
