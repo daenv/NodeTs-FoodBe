@@ -23,17 +23,17 @@ export const login = async (req: Request, res: Response) => {
     // Get data from request and assigned to foundUser (username and password)
     const foundUser = await userService.login(req.body);
     if (!foundUser) {
-      res
-        .status(HTTP_BAD_REQUEST)
-        .json({ message: "Invalid username or password" })
-        .send(generateTokenReponse(foundUser));
+      res.status(HTTP_BAD_REQUEST).json({ message: "Invalid username or password" });
     }
-    res.status(HTTP_SUCCESS).json({ message: "Login successful" });
+    res
+      .status(HTTP_SUCCESS)
+      .json({ message: "Login successful" })
+      .send(generateTokenReponse(foundUser));
   } catch (error) {
     res.status(HTTP_INTERNAL_SERVER_ERROR).json({ message: getErrorMessage(error) });
   }
 };
-export const send = async (req: Request, res: Response) => {
+/* export const send = async (req: Request, res: Response) => {
   try {
     const sendUser = await userService.send();
     res.status(HTTP_SUCCESS).json({ message: "Send successful", sendUser });
@@ -41,3 +41,4 @@ export const send = async (req: Request, res: Response) => {
     res.status(HTTP_INTERNAL_SERVER_ERROR).json({ message: getErrorMessage(error) });
   }
 };
+ */

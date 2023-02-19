@@ -55,7 +55,7 @@ export const login = async (user: DocumentDefinition<User>) => {
     throw error;
   }
 };
-export const send = async () => {
+/* export const send = async () => {
   try {
     const userCount = await UserModel.countDocuments();
     if (userCount > 0) {
@@ -67,4 +67,4 @@ export const send = async () => {
   } catch (error) {
     throw error;
   }
-};
+}; */
