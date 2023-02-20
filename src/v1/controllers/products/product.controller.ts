@@ -9,6 +9,7 @@ import { getErrorMessage } from "../../utils/errorMessage";
 import * as productService from "../../services/products/product.service";
 import { generateTokenReponse } from "../../utils/token";
 import { validateMongoId } from "../../utils/validateMongoDbId";
+import { ProductModel } from "../../models/products/product.model";
 
 export const createProduct = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -23,9 +24,10 @@ export const createProduct = async (req: Request, res: Response): Promise<any> =
 };
 export const updateProduct = async (req: Request, res: Response): Promise<any> => {
   const { id } = req.params;
-
+  validateMongoId(id);
+  console.log(typeof id);
   try {
-    const product = await productService.updateProduct(req.body);
+    const product = await productService.updateProduct(req.body, id);
     if (!product) {
       res.status(HTTP_BAD_REQUEST).json({ message: "Product not updated" });
     }

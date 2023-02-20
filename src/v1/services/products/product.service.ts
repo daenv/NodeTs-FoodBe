@@ -16,15 +16,10 @@ export const createProduct = async (product: DocumentDefinition<Product>): Promi
     throw error;
   }
 };
-export const updateProduct = async (product: DocumentDefinition<Product>): Promise<any> => {
+export const updateProduct = async (product: DocumentDefinition<Product>, id : Object): Promise<any> => {
   try {
-    //check id product
-    const id = product.id;
-    if (!id) {
-      throw new Error("Product id is required");
-    }
     // find and update product
-    const productUpdate = await ProductModel.findOneAndUpdate({ id: product?.id }, product, {
+    const productUpdate = await ProductModel.findOneAndUpdate({id: product.id}, product, {
       new: true,
     });
     if (!productUpdate) {
@@ -35,6 +30,20 @@ export const updateProduct = async (product: DocumentDefinition<Product>): Promi
     throw error;
   }
 };
+
+/* export const checkId = async (id: any, product: DocumentDefinition<Product>): Promise<any> => {
+  try {
+    if (!id || !product.id) {
+      throw new Error("Product id is required");
+      return;
+    }
+    if (id !== product.id) {
+      throw new Error("Product id is not match");
+      return;
+    }
+    return product;
+  } catch (error) {}
+}; */
 
 /* export const getAllProduct = async (product: DocumentDefinition<Product>): Promise<any> => { 
     try {
