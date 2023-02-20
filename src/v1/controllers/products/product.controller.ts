@@ -8,34 +8,32 @@ import {
 import { getErrorMessage } from "../../utils/errorMessage";
 import * as productService from "../../services/products/product.service";
 import { generateTokenReponse } from "../../utils/token";
-import {validateMongoId} from '../../utils/validateMongoDbId';
-
+import { validateMongoId } from "../../utils/validateMongoDbId";
 
 export const createProduct = async (req: Request, res: Response): Promise<any> => {
   try {
     const createdProduct = await productService.createProduct(req.body);
     if (!createdProduct) {
       res.status(HTTP_BAD_REQUEST).json({ message: "Product not created" });
-    } else {
-      res.status(HTTP_SUCCESS).json({ message: "Product created", product: createdProduct });
     }
+    res.status(HTTP_SUCCESS).json({ message: "Product created", product: createdProduct });
   } catch (error) {
     res.status(HTTP_INTERNAL_SERVER_ERROR).json({ message: getErrorMessage(error) });
   }
 };
 export const updateProduct = async (req: Request, res: Response): Promise<any> => {
-  
-  /* validateMongoId(id); */
+  const { id } = req.params;
+
   try {
-    if (req.body.title) {
-      req.body.slug = slugify(req.body.title);
+    const product = await productService.updateProduct(req.body);
+    if (!product) {
+      res.status(HTTP_BAD_REQUEST).json({ message: "Product not updated" });
     }
-    /* const updatedProduct = await productService.updateProduct(id); */
+    res.status(HTTP_SUCCESS).json({ message: "Product updated", product: product });
   } catch (error) {
     res.status(HTTP_INTERNAL_SERVER_ERROR).json({ message: getErrorMessage(error) });
   }
 };
-
 
 /* export const getAllProducts = async (req: Request, res: Response) => {
     try {

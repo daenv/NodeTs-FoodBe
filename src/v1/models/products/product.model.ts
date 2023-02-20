@@ -21,7 +21,7 @@ export interface Product extends mongoose.Document {
   category: string;
   brand: string;
   sold: string;
-  image: string;
+  image: image;
   ratings: number;
   totalRating: string;
 }
@@ -35,7 +35,7 @@ export const productSchema: mongoose.Schema<Product> = new mongoose.Schema(
     category: { type: "string", required: true },
     brand: { type: "string", required: true },
     sold: { type: "string", required: true },
-    image: { type: "string", required: true },
+    image: { type: imageSchema, required: true },
     ratings: { type: "number", required: true },
     totalRating: { type: "string", required: true, default: "0" },
   },

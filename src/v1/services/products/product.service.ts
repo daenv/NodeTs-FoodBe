@@ -10,23 +10,30 @@ export const createProduct = async (product: DocumentDefinition<Product>): Promi
       throw new Error("Product already exists");
     }
     // create product
-    else {
-      const newProduct = new ProductModel(product);
-      await newProduct.save();
-      return newProduct;
-    }
+    const newProduct = productExists ? undefined : await ProductModel.create(product);
+    return newProduct;
   } catch (error) {
     throw error;
   }
 };
-export const updateProduct = async (product: DocumentDefinition<Product> ): Promise<any> => {
-    
-    try {
-        const productFound = await ProductModel.findOne({ id: product.id });
-        if (!productFound) {
-            throw new Error("Product does not found");
-        }
-  } catch (error) {}
+export const updateProduct = async (product: DocumentDefinition<Product>): Promise<any> => {
+  try {
+    //check id product
+    const id = product.id;
+    if (!id) {
+      throw new Error("Product id is required");
+    }
+    // find and update product
+    const productUpdate = await ProductModel.findOneAndUpdate({ id: product?.id }, product, {
+      new: true,
+    });
+    if (!productUpdate) {
+      throw new Error("Product does not found");
+    }
+    return productUpdate;
+  } catch (error) {
+    throw error;
+  }
 };
 
 /* export const getAllProduct = async (product: DocumentDefinition<Product>): Promise<any> => { 
